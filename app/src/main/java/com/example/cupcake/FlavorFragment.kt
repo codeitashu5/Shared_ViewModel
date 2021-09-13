@@ -36,7 +36,8 @@ class FlavorFragment : Fragment() {
     // Binding object instance corresponding to the fragment_flavor.xml layout
     // This property is non-null between the onCreateView() and onDestroyView() lifecycle callbacks,
     // when the view hierarchy is attached to the fragment.
-    private var binding: FragmentFlavorBinding? = null
+    private var _binding: FragmentFlavorBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,16 +46,20 @@ class FlavorFragment : Fragment() {
         val fragmentBinding = FragmentFlavorBinding.inflate(inflater,
             container,
             false)
-        binding = fragmentBinding
-        return fragmentBinding.root
+        _binding = fragmentBinding
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding?.apply {
+        binding.apply {
+            //assigning the dependent property
+            viewModel = sharedViewModel
             nextButton.setOnClickListener { goToNextScreen() }
         }
+
+
     }
 
     /**
@@ -71,6 +76,6 @@ class FlavorFragment : Fragment() {
      */
     override fun onDestroyView() {
         super.onDestroyView()
-        binding = null
+        _binding = null
     }
 }
